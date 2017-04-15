@@ -14,7 +14,7 @@ public class CrusadersBot {
 	private static final double cutOffDelay = 1000 * 60 * 60;
 	private static final double cutOffHour = 3.5;
 	private static final double cutOffOverride = 3.5;
-	private static final double earlyGPressTime = 10000; 
+	private static final double earlyGPressTime = 20000; 
 	// private double scale = 1.114;
 	private double scale = 1;
 	private final int startDelay = 3000;

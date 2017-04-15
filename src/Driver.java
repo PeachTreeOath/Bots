@@ -22,7 +22,7 @@ public class Driver {
 	private static long nextStormRiderTime = 0;
 	private int stopDistance = 50;
 	private final boolean delayNeeded = true;
-	private final boolean rangeFind = true;
+	private final boolean rangeFind = false;
 	private Robot robot;
 	
 	public static void main(String[] args) {
