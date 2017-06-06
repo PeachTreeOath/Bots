@@ -9,11 +9,11 @@ import java.awt.event.KeyEvent;
 
 public class CrusadersBot {
 	private boolean isEvent = false;
-	private final boolean isLaptop = false;
-	private boolean longRun = true;
+	private final boolean isLaptop = true;
+	private boolean longRun = false;
 	private static final double cutOffDelay = 1000 * 60 * 60;
-	private static final double cutOffHour = 3;
-	private static final double cutOffOverride = 3;
+	private static final double cutOffHour = .75;
+	private static final double cutOffOverride = .75;
 	private static final double earlyGPressTime = 1000 * 60 * 5;
 	// private double scale = 1.114;
 	private double scale = 1;
@@ -43,7 +43,6 @@ public class CrusadersBot {
 	double cutOffTime;
 	boolean resetGame;
 	int resetNum = 1;
-	boolean earlyGPressed;
 
 	// System.out.println(Math.abs(currentPoint.x - originPoint.x)
 	// + " : " + Math.abs(currentPoint.y - originPoint.y));
@@ -68,13 +67,10 @@ public class CrusadersBot {
 		try {
 			resetGame = false;
 			startTime = System.currentTimeMillis();
-			if (resetNum == 1) {
-				earlyGPressed = true;
-			}
+	
 			if (resetNum == 1 && !longRun) {
 				cutOffTime = System.currentTimeMillis() + cutOffDelay * cutOffOverride;
 			} else {
-				earlyGPressed = false;
 				cutOffTime = System.currentTimeMillis() + cutOffDelay * cutOffHour;
 			}
 			Thread.sleep(startDelay);
@@ -95,8 +91,7 @@ public class CrusadersBot {
 				Thread.sleep(10);
 				robot.mouseRelease(InputEvent.BUTTON1_MASK);
 
-				if (!earlyGPressed && System.currentTimeMillis() - startTime > earlyGPressTime) {
-					earlyGPressed = true;
+				if (System.currentTimeMillis() - startTime > earlyGPressTime) {
 					robot.keyPress(KeyEvent.VK_G);
 					robot.keyRelease(KeyEvent.VK_G);
 				}
@@ -105,7 +100,6 @@ public class CrusadersBot {
 						|| Math.abs(lastPoint.y - currentPoint.y) > stopDistance || ArrowExists()) {
 					int minutes = (int) ((System.currentTimeMillis() - startTime) / 60000);
 					System.out.println("Phase 1 finished at " + minutes + " mins");
-					earlyGPressed = true;
 					if (!isLaptop) {
 						buyIdols(8000);
 						buyUnlocks(12500);
@@ -168,7 +162,13 @@ public class CrusadersBot {
 		boolean testColor4 = TestColorForArrow(colorCheck);
 		colorCheck = robot.getPixelColor(goPoint.x - 200, goPoint.y);
 		boolean testColor5 = TestColorForArrow(colorCheck);
-		if (testColor1 || testColor2 || testColor3 || testColor4 || testColor5) {
+		colorCheck = robot.getPixelColor(goPoint.x - 250, goPoint.y);
+		boolean testColor6 = TestColorForArrow(colorCheck);
+		colorCheck = robot.getPixelColor(goPoint.x - 300, goPoint.y);
+		boolean testColor7 = TestColorForArrow(colorCheck);
+		colorCheck = robot.getPixelColor(goPoint.x - 350, goPoint.y);
+		boolean testColor8 = TestColorForArrow(colorCheck);
+		if (testColor1 || testColor2 || testColor3 || testColor4 || testColor5|| testColor6 || testColor7 || testColor8) {
 			numArrowHits++;
 		} else {
 			numArrowHits = 0;
@@ -462,6 +462,7 @@ public class CrusadersBot {
 	}
 
 	private boolean TestColorForArrow(Color color) {
+		//System.out.println(color);
 		if (color.getRed() < 245 || color.getRed() > 254) {
 			return false;
 		}
@@ -470,7 +471,7 @@ public class CrusadersBot {
 			return false;
 		}
 
-		if (color.getBlue() < 50 || color.getBlue() > 110) {
+		if (color.getBlue() < 35 || color.getBlue() > 110) {
 			return false;
 		}
 
