@@ -14,7 +14,7 @@ public class CrusadersBot {
 	private static final double cutOffDelay = 1000 * 60 * 60;
 	private static final double cutOffHour = .75;
 	private static final double cutOffOverride = .75;
-	private static final double earlyGPressTime = 1000 * 60 * 5;
+	private static final double earlyGPressTime = 1000 * 60 * .5;
 	// private double scale = 1.114;
 	private double scale = 1;
 	private final int startDelay = 3000;
@@ -43,7 +43,8 @@ public class CrusadersBot {
 	double cutOffTime;
 	boolean resetGame;
 	int resetNum = 1;
-
+	boolean earlyGPressed;
+	
 	// System.out.println(Math.abs(currentPoint.x - originPoint.x)
 	// + " : " + Math.abs(currentPoint.y - originPoint.y));
 
@@ -85,13 +86,13 @@ public class CrusadersBot {
 			Toolkit.getDefaultToolkit().beep();
 
 			while (true) {
-
 				Point currentPoint = MouseInfo.getPointerInfo().getLocation();
 				robot.mousePress(InputEvent.BUTTON1_MASK);
 				Thread.sleep(10);
 				robot.mouseRelease(InputEvent.BUTTON1_MASK);
 
-				if (System.currentTimeMillis() - startTime > earlyGPressTime) {
+				if (!earlyGPressed && System.currentTimeMillis() - startTime > earlyGPressTime) {
+					earlyGPressed = true;
 					robot.keyPress(KeyEvent.VK_G);
 					robot.keyRelease(KeyEvent.VK_G);
 				}
