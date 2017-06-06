@@ -8,13 +8,13 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
 public class CrusadersBot {
-	private boolean isEvent = true;
+	private boolean isEvent = false;
 	private final boolean isLaptop = false;
-	private boolean longRun = false;
+	private boolean longRun = true;
 	private static final double cutOffDelay = 1000 * 60 * 60;
-	private static final double cutOffHour = 3.5;
-	private static final double cutOffOverride = 3.5;
-	private static final double earlyGPressTime = 1000 * 60 * 5; 
+	private static final double cutOffHour = 3;
+	private static final double cutOffOverride = 3;
+	private static final double earlyGPressTime = 1000 * 60 * 5;
 	// private double scale = 1.114;
 	private double scale = 1;
 	private final int startDelay = 3000;
@@ -45,7 +45,6 @@ public class CrusadersBot {
 	int resetNum = 1;
 	boolean earlyGPressed;
 
-			
 	// System.out.println(Math.abs(currentPoint.x - originPoint.x)
 	// + " : " + Math.abs(currentPoint.y - originPoint.y));
 
@@ -69,16 +68,12 @@ public class CrusadersBot {
 		try {
 			resetGame = false;
 			startTime = System.currentTimeMillis();
-			if(resetNum == 1)
-			{
-				earlyGPressed = true;		
+			if (resetNum == 1) {
+				earlyGPressed = true;
 			}
-			if (resetNum == 1 && !longRun)
-			{
+			if (resetNum == 1 && !longRun) {
 				cutOffTime = System.currentTimeMillis() + cutOffDelay * cutOffOverride;
-			}
-			else
-			{
+			} else {
 				earlyGPressed = false;
 				cutOffTime = System.currentTimeMillis() + cutOffDelay * cutOffHour;
 			}
@@ -94,19 +89,18 @@ public class CrusadersBot {
 			Toolkit.getDefaultToolkit().beep();
 
 			while (true) {
-	
+
 				Point currentPoint = MouseInfo.getPointerInfo().getLocation();
 				robot.mousePress(InputEvent.BUTTON1_MASK);
 				Thread.sleep(10);
 				robot.mouseRelease(InputEvent.BUTTON1_MASK);
 
-				if(!earlyGPressed && System.currentTimeMillis() - startTime > earlyGPressTime)
-				{
+				if (!earlyGPressed && System.currentTimeMillis() - startTime > earlyGPressTime) {
 					earlyGPressed = true;
 					robot.keyPress(KeyEvent.VK_G);
 					robot.keyRelease(KeyEvent.VK_G);
 				}
-				
+
 				if (Math.abs(lastPoint.x - currentPoint.x) > stopDistance
 						|| Math.abs(lastPoint.y - currentPoint.y) > stopDistance || ArrowExists()) {
 					int minutes = (int) ((System.currentTimeMillis() - startTime) / 60000);
@@ -165,8 +159,16 @@ public class CrusadersBot {
 
 	private boolean ArrowExists() {
 		Color colorCheck = robot.getPixelColor(goPoint.x, goPoint.y);
-		boolean testColor = TestColorForArrow(colorCheck);
-		if (testColor) {
+		boolean testColor1 = TestColorForArrow(colorCheck);
+		colorCheck = robot.getPixelColor(goPoint.x - 50, goPoint.y);
+		boolean testColor2 = TestColorForArrow(colorCheck);
+		colorCheck = robot.getPixelColor(goPoint.x - 100, goPoint.y);
+		boolean testColor3 = TestColorForArrow(colorCheck);
+		colorCheck = robot.getPixelColor(goPoint.x - 150, goPoint.y);
+		boolean testColor4 = TestColorForArrow(colorCheck);
+		colorCheck = robot.getPixelColor(goPoint.x - 200, goPoint.y);
+		boolean testColor5 = TestColorForArrow(colorCheck);
+		if (testColor1 || testColor2 || testColor3 || testColor4 || testColor5) {
 			numArrowHits++;
 		} else {
 			numArrowHits = 0;
@@ -204,7 +206,7 @@ public class CrusadersBot {
 		buffB7 = new Point(originPoint.x - (int) (693 * scale), originPoint.y + (int) (60 * scale));
 		buyAllButton = new Point(originPoint.x, originPoint.y + (int) (40 * scale));
 		unlockAllButton = new Point(originPoint.x, originPoint.y - (int) (40 * scale));
-		goPoint = new Point(originPoint.x - (int) (52 * scale), originPoint.y - (int) (332 * scale));
+		goPoint = new Point(originPoint.x - (int) (50 * scale), originPoint.y - (int) (332 * scale));
 	}
 
 	private void pressMouse(int delay) {
@@ -277,7 +279,7 @@ public class CrusadersBot {
 			robot.mouseMove(originPoint.x - (int) (375 * scale), originPoint.y - (int) (160 * scale));
 			Thread.sleep(50);
 			pressMouse(6000);
-			
+
 			// Reset button
 			robot.mouseMove(originPoint.x - (int) (430 * scale), originPoint.y - (int) (40 * scale));
 			Thread.sleep(50);
@@ -378,7 +380,7 @@ public class CrusadersBot {
 			pressMouse(100);
 
 			Point chosenCrusader = crusaderA;
-			
+
 			robot.mouseMove(chosenCrusader.x, chosenCrusader.y);
 			// robot.mouseMove(buyAllButton.x, buyAllButton.y);
 			robot.keyPress(KeyEvent.VK_G);
@@ -403,9 +405,11 @@ public class CrusadersBot {
 				}
 
 				Point currentPoint = MouseInfo.getPointerInfo().getLocation();
+				robot.keyPress(KeyEvent.VK_CONTROL);
 				robot.mousePress(InputEvent.BUTTON1_MASK);
 				Thread.sleep(10);
 				robot.mouseRelease(InputEvent.BUTTON1_MASK);
+				robot.keyRelease(KeyEvent.VK_CONTROL);
 				// if (Math.abs(buyAllButton.x - currentPoint.x) > stopDistance
 				// || Math.abs(buyAllButton.y - currentPoint.y) > stopDistance)
 				// {
