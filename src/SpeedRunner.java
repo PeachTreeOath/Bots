@@ -12,8 +12,8 @@ public class SpeedRunner {
 	private final boolean isLaptop = true;
 	private boolean longRun = false;
 	private static final double cutOffDelay = 1000 * 60 * 60;
-	private static final double cutOffHour = .35;
-	private static final double cutOffOverride = .35;
+	private static final double cutOffHour = .5;
+	private static final double cutOffOverride = .5;
 	private static final double earlyGPressTime = 1000 * 60 * 9;
 	// private double scale = 1.114;
 	private double scale = 1;
@@ -412,7 +412,7 @@ public class SpeedRunner {
 					earlyGPressedPhase2 = true;
 					robot.keyPress(KeyEvent.VK_G);
 					robot.keyRelease(KeyEvent.VK_G);
-					cutOffTime += cutOffDelay;
+					//cutOffTime += cutOffDelay;
 				}
 
 				Point currentPoint = MouseInfo.getPointerInfo().getLocation();
