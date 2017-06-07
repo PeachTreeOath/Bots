@@ -93,7 +93,7 @@ public class Opener {
 				case 1:
 					robot.mouseMove(buyAllButton.x, buyAllButton.y);
 					Thread.sleep(50);
-					pressMouse(60000);
+					pressMouse(45000);
 					break;
 				case 2:
 					robot.mouseMove(unlockAllButton.x, unlockAllButton.y);
