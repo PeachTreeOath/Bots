@@ -12,9 +12,9 @@ public class SpeedRunner {
 	private final boolean isLaptop = true;
 	private boolean longRun = false;
 	private static final double cutOffDelay = 1000 * 60 * 60;
-	private static final double cutOffHour = .75;
-	private static final double cutOffOverride = .75;
-	private static final double earlyGPressTime = 1000 * 60 * 5;
+	private static final double cutOffHour = .35;
+	private static final double cutOffOverride = .35;
+	private static final double earlyGPressTime = 1000 * 60 * 9;
 	// private double scale = 1.114;
 	private double scale = 1;
 	private final int startDelay = 3000;
@@ -93,6 +93,8 @@ public class SpeedRunner {
 
 				if (!earlyGPressed && System.currentTimeMillis() - startTime > earlyGPressTime) {
 					earlyGPressed = true;
+					robot.keyPress(KeyEvent.VK_G);
+					robot.keyRelease(KeyEvent.VK_G);
 				}
 
 				if (Math.abs(lastPoint.x - currentPoint.x) > stopDistance
@@ -100,15 +102,15 @@ public class SpeedRunner {
 					int minutes = (int) ((System.currentTimeMillis() - startTime) / 60000);
 					System.out.println("Phase 1 finished at " + minutes + " mins");
 					if (!isLaptop) {
-						buyIdols(8000);
-						buyUnlocks(12500);
+						buyIdols(3000);
+						buyUnlocks(3000);
 					} else {
-						buyIdols(10000);
-						buyUnlocks(20000);
+						buyIdols(3000);
+						buyUnlocks(3000);
 					}
 					robot.keyPress(KeyEvent.VK_Q);
 					robot.keyRelease(KeyEvent.VK_Q);
-					Thread.sleep(6000);
+					Thread.sleep(1000);
 					levelMainChicken();
 					break;
 				}
@@ -258,7 +260,7 @@ public class SpeedRunner {
 
 	private void resetGame() {
 		try {
-			buyIdols(7000);
+			buyIdols(2000);
 
 			/*
 			 * // Move to end robot.keyPress(KeyEvent.VK_CONTROL);
@@ -271,7 +273,7 @@ public class SpeedRunner {
 			// Reset buff
 			robot.mouseMove(originPoint.x - (int) (150 * scale), originPoint.y + (int) (60 * scale));
 			Thread.sleep(50);
-			pressMouse(6000);
+			pressMouse(3000);
 
 			// Reset confirm
 			robot.mouseMove(originPoint.x - (int) (500 * scale), originPoint.y - (int) (50 * scale));
@@ -324,7 +326,7 @@ public class SpeedRunner {
 			// Kill mobs
 			robot.mouseMove(originPoint.x - (int) (160 * scale), originPoint.y - (int) (270 * scale));
 			Thread.sleep(50);
-			for(int i = 0; i < 60; i++)
+			for(int i = 0; i < 50; i++)
 			{
 				// robot.keyPress(KeyEvent.VK_SPACE);
 				// robot.keyRelease(KeyEvent.VK_SPACE);
@@ -334,13 +336,16 @@ public class SpeedRunner {
 			// Buy initial units
 			robot.keyPress(KeyEvent.VK_Q);
 			robot.keyRelease(KeyEvent.VK_Q);
-			buyIdols(3000);
-			buyUnlocks(5000);
-
+			buyIdols(2000);
+			buyUnlocks(2000);
+			robot.keyPress(KeyEvent.VK_Q);
+			robot.keyRelease(KeyEvent.VK_Q);
+			
 			// Restart bot
 			robot.mouseMove(originPoint.x, originPoint.y);
 			robot.keyPress(KeyEvent.VK_G);
 			robot.keyRelease(KeyEvent.VK_G);
+			earlyGPressed = false;
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -405,6 +410,8 @@ public class SpeedRunner {
 
 				if (!earlyGPressedPhase2 && !longRun && System.currentTimeMillis() > cutOffTime) {
 					earlyGPressedPhase2 = true;
+					robot.keyPress(KeyEvent.VK_G);
+					robot.keyRelease(KeyEvent.VK_G);
 					cutOffTime += cutOffDelay;
 				}
 
