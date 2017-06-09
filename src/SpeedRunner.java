@@ -8,13 +8,14 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
 public class SpeedRunner {
-	private boolean isEvent = false;
+	private boolean isEvent = true;
 	private final boolean isLaptop = true;
 	private boolean longRun = false;
 	private static final double cutOffDelay = 1000 * 60 * 60;
 	private static final double cutOffHour = .5;
 	private static final double cutOffOverride = .5;
 	private static final double earlyGPressTime = 1000 * 60 * 9;
+	private static final long WPressTime = 1000 * 60 * 22;
 	// private double scale = 1.114;
 	private double scale = 1;
 	private final int startDelay = 3000;
@@ -372,7 +373,8 @@ public class SpeedRunner {
 		try {
 			long longRunTime = 0;
 			boolean newArrow = false;
-
+			long wCutOff = System.currentTimeMillis() + WPressTime; 
+					
 			// Move to end
 			robot.keyPress(KeyEvent.VK_CONTROL);
 			robot.keyPress(KeyEvent.VK_SHIFT);
@@ -415,6 +417,12 @@ public class SpeedRunner {
 					//cutOffTime += cutOffDelay;
 				}
 
+				if(System.currentTimeMillis() > wCutOff)
+				{
+					robot.keyPress(KeyEvent.VK_W);
+					robot.keyRelease(KeyEvent.VK_W);
+				}
+				
 				Point currentPoint = MouseInfo.getPointerInfo().getLocation();
 				robot.keyPress(KeyEvent.VK_CONTROL);
 				robot.mousePress(InputEvent.BUTTON1_MASK);
@@ -446,6 +454,8 @@ public class SpeedRunner {
 						System.out.println("Phase 2 finished at " + minutes + " mins");
 						resetGame = true;
 						resetNum++;
+						robot.keyPress(KeyEvent.VK_Q);
+						robot.keyRelease(KeyEvent.VK_Q);
 						resetGame();
 						break;
 					}
