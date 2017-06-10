@@ -9,13 +9,13 @@ import java.awt.event.KeyEvent;
 
 public class SpeedRunner {
 	private boolean isEvent = true;
-	private final boolean isLaptop = true;
+	private final boolean isLaptop = false;
 	private boolean longRun = false;
 	private static final double cutOffDelay = 1000 * 60 * 60;
 	private static final double cutOffHour = .5;
 	private static final double cutOffOverride = .5;
 	private static final double earlyGPressTime = 1000 * 60 * 9;
-	private static final long WPressTime = 1000 * 60 * 22;
+	private static final long WPressTime = 1000 * 60 * 13;
 	// private double scale = 1.114;
 	private double scale = 1;
 	private final int startDelay = 3000;

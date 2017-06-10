@@ -8,8 +8,8 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
 public class CrusadersBot {
-	private boolean isEvent = false;
-	private final boolean isLaptop = true;
+	private boolean isEvent = true;
+	private final boolean isLaptop = false;
 	private boolean longRun = false;
 	private static final double cutOffDelay = 1000 * 60 * 60;
 	private static final double cutOffHour = .75;
