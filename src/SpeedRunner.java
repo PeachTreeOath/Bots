@@ -12,8 +12,8 @@ public class SpeedRunner {
 	private final boolean isLaptop = false;
 	private boolean longRun = false;
 	private static final double cutOffDelay = 1000 * 60 * 60;
-	private static final double cutOffHour = .5;
-	private static final double cutOffOverride = .5;
+	private static final double cutOffHour = 0.5;
+	private static final double cutOffOverride = 0.5;
 	private static final double earlyGPressTime = 1000 * 60 * 9;
 	private static final long WPressTime = 1000 * 60 * 13;
 	// private double scale = 1.114;
@@ -45,7 +45,7 @@ public class SpeedRunner {
 	boolean resetGame;
 	int resetNum = 1;
 	boolean earlyGPressed;
-	
+
 	// System.out.println(Math.abs(currentPoint.x - originPoint.x)
 	// + " : " + Math.abs(currentPoint.y - originPoint.y));
 
@@ -69,7 +69,7 @@ public class SpeedRunner {
 		try {
 			resetGame = false;
 			startTime = System.currentTimeMillis();
-	
+
 			if (resetNum == 1 && !longRun) {
 				cutOffTime = System.currentTimeMillis() + cutOffDelay * cutOffOverride;
 			} else {
@@ -79,11 +79,13 @@ public class SpeedRunner {
 			System.out.println("Full Bot started");
 
 			int step = 0;
-
-			originPoint = MouseInfo.getPointerInfo().getLocation();
+			if (resetNum == 1) {
+				originPoint = MouseInfo.getPointerInfo().getLocation();
+			}
 			generatePoints();
 
-			Point lastPoint = MouseInfo.getPointerInfo().getLocation();
+			Point lastPoint = originPoint;
+			robot.mouseMove(originPoint.x, originPoint.y);
 			Toolkit.getDefaultToolkit().beep();
 
 			while (true) {
@@ -153,6 +155,7 @@ public class SpeedRunner {
 
 	private int numArrowHits = 0;
 
+	/*
 	private boolean ArrowExists() {
 		Color colorCheck = robot.getPixelColor(goPoint.x, goPoint.y);
 		boolean testColor1 = TestColorForArrow(colorCheck);
@@ -174,7 +177,8 @@ public class SpeedRunner {
 		boolean testColor7 = TestColorForArrow(colorCheck);
 		colorCheck = robot.getPixelColor(goPoint.x - 350, goPoint.y);
 		boolean testColor8 = TestColorForArrow(colorCheck);
-		if (testColor1 ||testColor1a ||testColor1b || testColor2 || testColor3 || testColor4 || testColor5|| testColor6 || testColor7 || testColor8) {
+		if (testColor1 || testColor1a || testColor1b || testColor2 || testColor3 || testColor4 || testColor5
+				|| testColor6 || testColor7 || testColor8) {
 			numArrowHits++;
 		} else {
 			numArrowHits = 0;
@@ -187,7 +191,8 @@ public class SpeedRunner {
 
 		return false;
 	}
-
+*/
+	
 	private void generatePoints() {
 		crusaderA = new Point(originPoint.x - (int) (625 * scale), originPoint.y - (int) (55 * scale));
 		crusaderB = new Point(originPoint.x - (int) (340 * scale), originPoint.y - (int) (55 * scale));
@@ -327,8 +332,7 @@ public class SpeedRunner {
 			// Kill mobs
 			robot.mouseMove(originPoint.x - (int) (160 * scale), originPoint.y - (int) (270 * scale));
 			Thread.sleep(50);
-			for(int i = 0; i < 50; i++)
-			{
+			for (int i = 0; i < 50; i++) {
 				// robot.keyPress(KeyEvent.VK_SPACE);
 				// robot.keyRelease(KeyEvent.VK_SPACE);
 				pressMouse(1000);
@@ -341,7 +345,7 @@ public class SpeedRunner {
 			buyUnlocks(2000);
 			robot.keyPress(KeyEvent.VK_Q);
 			robot.keyRelease(KeyEvent.VK_Q);
-			
+
 			// Restart bot
 			robot.mouseMove(originPoint.x, originPoint.y);
 			robot.keyPress(KeyEvent.VK_G);
@@ -373,8 +377,8 @@ public class SpeedRunner {
 		try {
 			long longRunTime = 0;
 			boolean newArrow = false;
-			long wCutOff = System.currentTimeMillis() + WPressTime; 
-					
+			long wCutOff = System.currentTimeMillis() + WPressTime;
+
 			// Move to end
 			robot.keyPress(KeyEvent.VK_CONTROL);
 			robot.keyPress(KeyEvent.VK_SHIFT);
@@ -399,7 +403,7 @@ public class SpeedRunner {
 
 			nextStormRiderTime = System.currentTimeMillis() + 7000;
 			boolean earlyGPressedPhase2 = false;
-			
+
 			while (true) {
 				if (System.currentTimeMillis() > nextStormRiderTime) {
 					castStormRider();
@@ -414,15 +418,14 @@ public class SpeedRunner {
 					earlyGPressedPhase2 = true;
 					robot.keyPress(KeyEvent.VK_G);
 					robot.keyRelease(KeyEvent.VK_G);
-					//cutOffTime += cutOffDelay;
+					// cutOffTime += cutOffDelay;
 				}
 
-				if(System.currentTimeMillis() > wCutOff)
-				{
+				if (System.currentTimeMillis() > wCutOff) {
 					robot.keyPress(KeyEvent.VK_W);
 					robot.keyRelease(KeyEvent.VK_W);
 				}
-				
+
 				Point currentPoint = MouseInfo.getPointerInfo().getLocation();
 				robot.keyPress(KeyEvent.VK_CONTROL);
 				robot.mousePress(InputEvent.BUTTON1_MASK);
@@ -483,7 +486,6 @@ public class SpeedRunner {
 	}
 
 	private boolean TestColorForArrow(Color color) {
-		//System.out.println(color);
 		if (color.getRed() < 245 || color.getRed() > 254) {
 			return false;
 		}
