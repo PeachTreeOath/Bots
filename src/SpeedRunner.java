@@ -46,9 +46,6 @@ public class SpeedRunner {
 	int resetNum = 1;
 	boolean earlyGPressed;
 
-	// System.out.println(Math.abs(currentPoint.x - originPoint.x)
-	// + " : " + Math.abs(currentPoint.y - originPoint.y));
-
 	public static void main(String[] args) {
 		try {
 			robot = new Robot();
@@ -98,20 +95,12 @@ public class SpeedRunner {
 							.println("PRINTA Early G: " + earlyGPressed + " - Curr Time: " + System.currentTimeMillis()
 									+ " - Start Time: " + startTime + " - EarlyGPressTime: " + earlyGPressTime);
 					earlyGPressed = true;
-					int minutes = (int) ((System.currentTimeMillis() - startTime) / 60000);
-					System.out.println("G1 pressed at " + minutes + " mins");
 					robot.keyPress(KeyEvent.VK_G);
 					robot.keyRelease(KeyEvent.VK_G);
 				}
 
 				if (Math.abs(lastPoint.x - currentPoint.x) > stopDistance
 						|| Math.abs(lastPoint.y - currentPoint.y) > stopDistance || earlyGPressed) {
-					System.out.println(
-							"PRINTB Early G: " + earlyGPressed + " - LastPoint: " + lastPoint + " - CurrentPoint: "
-									+ currentPoint + " - X Dist: " + Math.abs(lastPoint.x - currentPoint.x)
-									+ " - Y Dist " + Math.abs(lastPoint.y - currentPoint.y) + " - Stop Dist: " + stopDistance);
-					int minutes = (int) ((System.currentTimeMillis() - startTime) / 60000);
-					System.out.println("Phase 1 finished at " + minutes + " mins");
 					if (!isLaptop) {
 						buyIdols(3000);
 						buyUnlocks(3000);
@@ -160,36 +149,6 @@ public class SpeedRunner {
 		}
 		System.out.println("Bot stopped");
 	}
-
-	private int numArrowHits = 0;
-
-	/*
-	 * private boolean ArrowExists() { Color colorCheck =
-	 * robot.getPixelColor(goPoint.x, goPoint.y); boolean testColor1 =
-	 * TestColorForArrow(colorCheck); colorCheck = robot.getPixelColor(goPoint.x
-	 * - 50, goPoint.y); boolean testColor1a = TestColorForArrow(colorCheck);
-	 * colorCheck = robot.getPixelColor(goPoint.x - 55, goPoint.y); boolean
-	 * testColor1b = TestColorForArrow(colorCheck); colorCheck =
-	 * robot.getPixelColor(goPoint.x - 60, goPoint.y); boolean testColor2 =
-	 * TestColorForArrow(colorCheck); colorCheck = robot.getPixelColor(goPoint.x
-	 * - 100, goPoint.y); boolean testColor3 = TestColorForArrow(colorCheck);
-	 * colorCheck = robot.getPixelColor(goPoint.x - 150, goPoint.y); boolean
-	 * testColor4 = TestColorForArrow(colorCheck); colorCheck =
-	 * robot.getPixelColor(goPoint.x - 200, goPoint.y); boolean testColor5 =
-	 * TestColorForArrow(colorCheck); colorCheck = robot.getPixelColor(goPoint.x
-	 * - 250, goPoint.y); boolean testColor6 = TestColorForArrow(colorCheck);
-	 * colorCheck = robot.getPixelColor(goPoint.x - 300, goPoint.y); boolean
-	 * testColor7 = TestColorForArrow(colorCheck); colorCheck =
-	 * robot.getPixelColor(goPoint.x - 350, goPoint.y); boolean testColor8 =
-	 * TestColorForArrow(colorCheck); if (testColor1 || testColor1a ||
-	 * testColor1b || testColor2 || testColor3 || testColor4 || testColor5 ||
-	 * testColor6 || testColor7 || testColor8) { numArrowHits++; } else {
-	 * numArrowHits = 0; }
-	 * 
-	 * if (numArrowHits > 4) { numArrowHits = 0; return true; }
-	 * 
-	 * return false; }
-	 */
 
 	private void generatePoints() {
 		crusaderA = new Point(originPoint.x - (int) (625 * scale), originPoint.y - (int) (55 * scale));
@@ -292,7 +251,7 @@ public class SpeedRunner {
 			// Reset button
 			robot.mouseMove(originPoint.x - (int) (430 * scale), originPoint.y - (int) (40 * scale));
 			Thread.sleep(50);
-			pressMouse(27500);
+			pressMouse(15000);
 
 			// Continue button
 			robot.mouseMove(originPoint.x - (int) (430 * scale), originPoint.y - (int) (30 * scale));
@@ -346,8 +305,6 @@ public class SpeedRunner {
 
 			// Restart bot
 			robot.mouseMove(originPoint.x, originPoint.y);
-			int minutes = (int) ((System.currentTimeMillis() - startTime) / 60000);
-			System.out.println("G2 pressed at " + minutes + " mins");
 			robot.keyPress(KeyEvent.VK_G);
 			robot.keyRelease(KeyEvent.VK_G);
 			earlyGPressed = false;
@@ -399,8 +356,6 @@ public class SpeedRunner {
 			robot.mouseMove(chosenCrusader.x, chosenCrusader.y);
 			// robot.mouseMove(buyAllButton.x, buyAllButton.y);
 
-			int minutes2 = (int) ((System.currentTimeMillis() - startTime) / 60000);
-			System.out.println("G3 pressed at " + minutes2 + " mins");
 			robot.keyPress(KeyEvent.VK_G);
 			robot.keyRelease(KeyEvent.VK_G);
 
@@ -411,19 +366,12 @@ public class SpeedRunner {
 				if (System.currentTimeMillis() > nextStormRiderTime) {
 					castStormRider();
 					nextStormRiderTime = System.currentTimeMillis() + stormRiderPressDelay;
-					// int minutes = (int) ((System.currentTimeMillis() -
-					// startTime) / 60000);
-					// System.out.println("Storm rider called at " + minutes
-					// + " mins");
 				}
 
 				if (!earlyGPressedPhase2 && !longRun && System.currentTimeMillis() > cutOffTime) {
 					earlyGPressedPhase2 = true;
-					int minutes = (int) ((System.currentTimeMillis() - startTime) / 60000);
-					System.out.println("G4 pressed at " + minutes + " mins");
 					robot.keyPress(KeyEvent.VK_G);
 					robot.keyRelease(KeyEvent.VK_G);
-					// cutOffTime += cutOffDelay;
 				}
 
 				if (System.currentTimeMillis() > wCutOff) {

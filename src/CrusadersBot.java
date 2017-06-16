@@ -284,7 +284,7 @@ public class CrusadersBot {
 			// Reset button
 			robot.mouseMove(originPoint.x - (int) (430 * scale), originPoint.y - (int) (40 * scale));
 			Thread.sleep(50);
-			pressMouse(27500);
+			pressMouse(15000);
 
 			// Continue button
 			robot.mouseMove(originPoint.x - (int) (430 * scale), originPoint.y - (int) (30 * scale));
