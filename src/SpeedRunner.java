@@ -81,10 +81,10 @@ public class SpeedRunner {
 			}
 			generatePoints();
 
+			Point lastPoint = MouseInfo.getPointerInfo().getLocation();
 			Toolkit.getDefaultToolkit().beep();
 
 			while (true) {
-				Point lastPoint = MouseInfo.getPointerInfo().getLocation();
 				Point currentPoint = MouseInfo.getPointerInfo().getLocation();
 				robot.mousePress(InputEvent.BUTTON1_MASK);
 				Thread.sleep(10);
