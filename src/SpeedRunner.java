@@ -91,9 +91,6 @@ public class SpeedRunner {
 				robot.mouseRelease(InputEvent.BUTTON1_MASK);
 
 				if (!earlyGPressed && System.currentTimeMillis() - startTime > earlyGPressTime) {
-					System.out
-							.println("PRINTA Early G: " + earlyGPressed + " - Curr Time: " + System.currentTimeMillis()
-									+ " - Start Time: " + startTime + " - EarlyGPressTime: " + earlyGPressTime);
 					earlyGPressed = true;
 					robot.keyPress(KeyEvent.VK_G);
 					robot.keyRelease(KeyEvent.VK_G);
@@ -244,7 +241,7 @@ public class SpeedRunner {
 			pressMouse(3000);
 
 			// Ad skip
-			robot.mouseMove(originPoint.x - (int) (375 * scale), originPoint.y - (int) (160 * scale));
+			robot.mouseMove(originPoint.x - (int) (375 * scale), originPoint.y - (int) (165 * scale));
 			Thread.sleep(50);
 			pressMouse(6000);
 
@@ -287,11 +284,10 @@ public class SpeedRunner {
 			pressMouse(4000);
 
 			// Kill mobs
-			robot.mouseMove(originPoint.x - (int) (160 * scale), originPoint.y - (int) (270 * scale));
+			robot.mouseMove(originPoint.x - (int) (170 * scale), originPoint.y - (int) (280 * scale));
 			Thread.sleep(50);
 			for (int i = 0; i < 50; i++) {
-				// robot.keyPress(KeyEvent.VK_SPACE);
-				// robot.keyRelease(KeyEvent.VK_SPACE);
+
 				pressMouse(1000);
 			}
 
@@ -304,6 +300,7 @@ public class SpeedRunner {
 			robot.keyRelease(KeyEvent.VK_Q);
 
 			// Restart bot
+			Thread.sleep(200);
 			robot.mouseMove(originPoint.x, originPoint.y);
 			robot.keyPress(KeyEvent.VK_G);
 			robot.keyRelease(KeyEvent.VK_G);
@@ -436,21 +433,5 @@ public class SpeedRunner {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-	}
-
-	private boolean TestColorForArrow(Color color) {
-		if (color.getRed() < 245 || color.getRed() > 254) {
-			return false;
-		}
-
-		if (color.getGreen() < 210 || color.getGreen() > 240) {
-			return false;
-		}
-
-		if (color.getBlue() < 35 || color.getBlue() > 110) {
-			return false;
-		}
-
-		return true;
 	}
 }
