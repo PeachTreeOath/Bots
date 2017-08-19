@@ -8,7 +8,7 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
 public class SpeedRunner {
-	private boolean isEvent = true;
+	private boolean isEvent = false;
 	private final boolean isLaptop = false;
 	private boolean longRun = false;
 	private static final double cutOffDelay = 1000 * 60 * 60;
@@ -91,8 +91,10 @@ public class SpeedRunner {
 				robot.mouseRelease(InputEvent.BUTTON1_MASK);
 
 				if (!earlyGPressed && System.currentTimeMillis() - startTime > earlyGPressTime) {
+					Thread.sleep(100);
 					earlyGPressed = true;
 					robot.keyPress(KeyEvent.VK_G);
+					Thread.sleep(10);
 					robot.keyRelease(KeyEvent.VK_G);
 				}
 
@@ -106,6 +108,7 @@ public class SpeedRunner {
 						buyUnlocks(3000);
 					}
 					robot.keyPress(KeyEvent.VK_Q);
+					Thread.sleep(10);
 					robot.keyRelease(KeyEvent.VK_Q);
 					Thread.sleep(1000);
 					levelMainChicken();
@@ -293,16 +296,19 @@ public class SpeedRunner {
 
 			// Buy initial units
 			robot.keyPress(KeyEvent.VK_Q);
+			Thread.sleep(10);
 			robot.keyRelease(KeyEvent.VK_Q);
 			buyIdols(2000);
 			buyUnlocks(2000);
 			robot.keyPress(KeyEvent.VK_Q);
+			Thread.sleep(10);
 			robot.keyRelease(KeyEvent.VK_Q);
 
 			// Restart bot
 			Thread.sleep(200);
 			robot.mouseMove(originPoint.x, originPoint.y);
 			robot.keyPress(KeyEvent.VK_G);
+			Thread.sleep(10);
 			robot.keyRelease(KeyEvent.VK_G);
 			earlyGPressed = false;
 		} catch (InterruptedException e) {
@@ -354,6 +360,7 @@ public class SpeedRunner {
 			// robot.mouseMove(buyAllButton.x, buyAllButton.y);
 
 			robot.keyPress(KeyEvent.VK_G);
+			Thread.sleep(10);
 			robot.keyRelease(KeyEvent.VK_G);
 
 			nextStormRiderTime = System.currentTimeMillis() + 7000;
@@ -368,11 +375,13 @@ public class SpeedRunner {
 				if (!earlyGPressedPhase2 && !longRun && System.currentTimeMillis() > cutOffTime) {
 					earlyGPressedPhase2 = true;
 					robot.keyPress(KeyEvent.VK_G);
+					Thread.sleep(10);
 					robot.keyRelease(KeyEvent.VK_G);
 				}
 
 				if (System.currentTimeMillis() > wCutOff) {
 					robot.keyPress(KeyEvent.VK_W);
+					Thread.sleep(10);
 					robot.keyRelease(KeyEvent.VK_W);
 				}
 
@@ -400,6 +409,7 @@ public class SpeedRunner {
 						longRunTime = System.currentTimeMillis() + longRunPressDelay;
 						System.out.println("G5 pressed at " + minutes + " mins");
 						robot.keyPress(KeyEvent.VK_G);
+						Thread.sleep(10);
 						robot.keyRelease(KeyEvent.VK_G);
 						newArrow = false;
 					} else if (!longRun) {
@@ -408,6 +418,7 @@ public class SpeedRunner {
 						resetGame = true;
 						resetNum++;
 						robot.keyPress(KeyEvent.VK_Q);
+						Thread.sleep(10);
 						robot.keyRelease(KeyEvent.VK_Q);
 						resetGame();
 						break;
