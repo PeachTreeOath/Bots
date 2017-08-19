@@ -57,7 +57,7 @@ public class Driver {
 			while (true) {
 				Point currentPoint = MouseInfo.getPointerInfo().getLocation();
 				// if (gameType == GameType.IDLE_CH)
-				// robot.keyPress(KeyEvent.VK_CONTROL);
+				 robot.keyPress(KeyEvent.VK_CONTROL);
 				
 				if(!rangeFind)
 				{
@@ -70,7 +70,7 @@ public class Driver {
 				}
 
 				// if (gameType == GameType.IDLE_CH)
-				// robot.keyRelease(KeyEvent.VK_CONTROL);
+				 robot.keyRelease(KeyEvent.VK_CONTROL);
 				if (Math.abs(originPoint.x - currentPoint.x) > stopDistance
 						|| Math.abs(originPoint.y - currentPoint.y) > stopDistance) {
 					break;

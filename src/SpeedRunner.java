@@ -8,14 +8,14 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
 public class SpeedRunner {
-	private boolean isEvent = true;
+	private boolean isEvent = false;
 	private final boolean isLaptop = false;
 	private boolean longRun = false;
 	private static final double cutOffDelay = 1000 * 60 * 60;
-	private static final double cutOffHour = 0.5;
-	private static final double cutOffOverride = 0.5;
-	private static final double earlyGPressTime = 1000 * 60 * 9;
-	private static final long WPressTime = 1000 * 60 * 13;
+	private static final double cutOffHour = 0.51;
+	private static final double cutOffOverride = 0.51;
+	private static final double earlyGPressTime = 1000 * 60 * 11;
+	private static final long WPressTime = 1000 * 60 * 11;
 	// private double scale = 1.114;
 	private double scale = 1;
 	private final int startDelay = 3000;
@@ -91,6 +91,7 @@ public class SpeedRunner {
 				robot.mouseRelease(InputEvent.BUTTON1_MASK);
 
 				if (!earlyGPressed && System.currentTimeMillis() - startTime > earlyGPressTime) {
+					Thread.sleep(100);
 					earlyGPressed = true;
 					robot.keyPress(KeyEvent.VK_G);
 					robot.keyRelease(KeyEvent.VK_G);
