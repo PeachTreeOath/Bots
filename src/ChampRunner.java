@@ -8,7 +8,7 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
 public class ChampRunner {
-	private boolean longRun = true;
+	private boolean longRun = false;
 	private static final double cutOffDelay = 1000 * 60 * 60;
 	private static final double cutOffHour = 0.5;
 	private static final double cutOffOverride = 0.5;
@@ -34,6 +34,7 @@ public class ChampRunner {
 	private Point chooseTownPoint;
 	private Point chooseMissionPoint;
 	private Point confirmMissionPoint;
+	private Point autoProgressPoint;
 	
 	public static void main(String[] args) {
 		try {
@@ -76,7 +77,7 @@ public class ChampRunner {
 			outerloop:
 			while (true) {
 				Point currentPoint = MouseInfo.getPointerInfo().getLocation();
-				//robot.mousePress(InputEvent.BUTTON1_MASK);
+				robot.mousePress(InputEvent.BUTTON1_MASK);
 				Thread.sleep(10);
 				robot.mouseRelease(InputEvent.BUTTON1_MASK);
 
@@ -101,11 +102,11 @@ public class ChampRunner {
 					int currx = buffStartingPoint.x;
 					robot.mouseMove(currx, buffStartingPoint.y);
 					lastPoint = MouseInfo.getPointerInfo().getLocation();
-					for(int i = 0; i < 65; i++)
+					for(int i = 0; i < 60; i++)
 					{
 						currentPoint = MouseInfo.getPointerInfo().getLocation();
 						robot.mousePress(InputEvent.BUTTON1_MASK);
-						Thread.sleep(10);
+						Thread.sleep(30);
 						robot.mouseRelease(InputEvent.BUTTON1_MASK);
 
 						if(ArrowExists())
@@ -121,7 +122,7 @@ public class ChampRunner {
 							break outerloop;
 						}
 						
-						currx += skillXIncrement;
+						currx -= skillXIncrement;
 						robot.mouseMove(currx, buffStartingPoint.y);
 						
 						lastPoint = MouseInfo.getPointerInfo().getLocation();
@@ -136,7 +137,7 @@ public class ChampRunner {
 					{
 						currentPoint = MouseInfo.getPointerInfo().getLocation();
 						robot.mousePress(InputEvent.BUTTON1_MASK);
-						Thread.sleep(20);
+						Thread.sleep(30);
 						robot.mouseRelease(InputEvent.BUTTON1_MASK);
 
 						if(ArrowExists())
@@ -175,22 +176,23 @@ public class ChampRunner {
 
 	private void generatePoints() {
 		formationPoint = new Point(originPoint.x - (int) (1152 * scale), originPoint.y - (int) (30 * scale));
-		buffStartingPoint = new Point(originPoint.x - (int) (1000 * scale), originPoint.y + (int) (57 * scale));
+		buffStartingPoint = new Point(originPoint.x - (int) (0 * scale), originPoint.y + (int) (57 * scale));
 		perkStartingPoint = new Point(originPoint.x - (int) (756 * scale), originPoint.y - (int) (65 * scale));
 		goPoint = new Point(originPoint.x + (int) (40 * scale), originPoint.y - (int) (450 * scale));
 		
 		completeAdventurePoint = new Point(originPoint.x - (int) (971 * scale), originPoint.y - (int) (556 * scale));
-		confirmCompletePoint = new Point(originPoint.x - (int) (616 * scale), originPoint.y - (int) (145 * scale));
+		confirmCompletePoint = new Point(originPoint.x - (int) (616 * scale), originPoint.y - (int) (115 * scale));
 		continuePoint = new Point(originPoint.x - (int) (532 * scale), originPoint.y - (int) (39 * scale));
-		chooseTownPoint = new Point(originPoint.x - (int) (451), originPoint.y - (int) (277 * scale));
-		chooseMissionPoint = new Point(originPoint.x - (int) (755 * scale), originPoint.y - (int) (269 * scale));
+		chooseTownPoint = new Point(originPoint.x - (int) (536), originPoint.y - (int) (277 * scale));
+		chooseMissionPoint = new Point(originPoint.x - (int) (755 * scale), originPoint.y - (int) (505 * scale));
 		confirmMissionPoint = new Point(originPoint.x - (int) (383 * scale), originPoint.y - (int) (104 * scale));
+		autoProgressPoint = new Point(originPoint.x - (int) (-64 * scale), originPoint.y - (int) (533 * scale));
 	}
 
 	private void pressMouse(int delay) {
 		try {
 			robot.mousePress(InputEvent.BUTTON1_MASK);
-			Thread.sleep(10);
+			Thread.sleep(30);
 			robot.mouseRelease(InputEvent.BUTTON1_MASK);
 			Thread.sleep(delay);
 		} catch (InterruptedException e) {
@@ -230,6 +232,11 @@ public class ChampRunner {
 			robot.mouseMove(confirmMissionPoint.x, confirmMissionPoint.y);
 			Thread.sleep(50);
 			pressMouse(2000);
+			
+			// Turn on auto-progress
+			robot.mouseMove(autoProgressPoint.x, autoProgressPoint.y);
+			Thread.sleep(50);
+			pressMouse(1000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -245,16 +252,16 @@ public class ChampRunner {
 		} else {
 			numArrowHits = 0;
 		}
-		if (numArrowHits > 4) {
+		if (numArrowHits > 8) {
 			numArrowHits = 0;
-			return true;
+			if(!longRun)
+				return true;
 		}
 
 		return false;
 	}
 	
 	private boolean TestColorForArrow(Color color) {
-		System.out.println(color);
 		if (color.getRed() < 220) {
 			return false;
 		}
