@@ -7,10 +7,11 @@ import java.awt.Toolkit;
 import java.awt.event.InputEvent;
 
 public class ChampRunner {
-	private boolean longRun = false;
+	private boolean longRun = true;
 	private static final double cutOffDelay = 1000 * 60 * 60;
 	private static final double cutOffHour = 0.5;
 	private static final int longRunPressDelay = 1000 * 60 * 5;
+	private boolean ARROW_COLOR_DEBUG = false;
 	private final int startDelay = 3000;
 	private final int clickDelay = 500;
 	private final int stopDistance = 50;
@@ -77,19 +78,17 @@ public class ChampRunner {
 				Thread.sleep(30);
 				robot.mouseRelease(InputEvent.BUTTON1_MASK);
 
-				if (ArrowExists() && System.currentTimeMillis() > longRunFarmTime) {
-					// Farm for x seconds then check for arrow again if doing long run
-					if(longRun)
-					{
+				if (DoINeedToReset()) {
+					// Farm for x seconds then check for arrow again if doing
+					// long run
+					if (longRun) {
 						// Turn on auto-progress
 						robot.mouseMove(autoProgressPoint.x, autoProgressPoint.y);
 						Thread.sleep(50);
 						pressMouse(1000);
-						
-						longRunFarmTime =  System.currentTimeMillis() + longRunPressDelay;
-					}
-					else
-					{
+
+						longRunFarmTime = System.currentTimeMillis() + longRunPressDelay;
+					} else {
 						resetGame = true;
 						resetNum++;
 						resetGame();
@@ -116,11 +115,22 @@ public class ChampRunner {
 						Thread.sleep(30);
 						robot.mouseRelease(InputEvent.BUTTON1_MASK);
 
-						if (ArrowExists()) {
-							resetGame = true;
-							resetNum++;
-							resetGame();
-							break outerloop;
+						if (DoINeedToReset()) {
+							// Farm for x seconds then check for arrow again if doing
+							// long run
+							if (longRun) {
+								// Turn on auto-progress
+								robot.mouseMove(autoProgressPoint.x, autoProgressPoint.y);
+								Thread.sleep(50);
+								pressMouse(1000);
+
+								longRunFarmTime = System.currentTimeMillis() + longRunPressDelay;
+							} else {
+								resetGame = true;
+								resetNum++;
+								resetGame();
+								break outerloop;
+							}
 						}
 
 						if (Math.abs(lastPoint.x - currentPoint.x) > stopDistance
@@ -145,11 +155,22 @@ public class ChampRunner {
 						Thread.sleep(30);
 						robot.mouseRelease(InputEvent.BUTTON1_MASK);
 
-						if (ArrowExists()) {
-							resetGame = true;
-							resetNum++;
-							resetGame();
-							break outerloop;
+						if (DoINeedToReset()) {
+							// Farm for x seconds then check for arrow again if doing
+							// long run
+							if (longRun) {
+								// Turn on auto-progress
+								robot.mouseMove(autoProgressPoint.x, autoProgressPoint.y);
+								Thread.sleep(50);
+								pressMouse(1000);
+
+								longRunFarmTime = System.currentTimeMillis() + longRunPressDelay;
+							} else {
+								resetGame = true;
+								resetNum++;
+								resetGame();
+								break outerloop;
+							}
 						}
 
 						if (Math.abs(lastPoint.x - currentPoint.x) > stopDistance
@@ -251,6 +272,9 @@ public class ChampRunner {
 	private boolean ArrowExists() {
 		Color colorCheck = robot.getPixelColor(goPoint.x, goPoint.y);
 		boolean testColor = TestColorForArrow(colorCheck);
+		if (ARROW_COLOR_DEBUG) {
+			System.out.println("Arrow pixel color = " + colorCheck + " is " + testColor);
+		}
 		if (testColor) {
 			numArrowHits++;
 		} else {
@@ -258,6 +282,7 @@ public class ChampRunner {
 		}
 		if (numArrowHits > 8) {
 			numArrowHits = 0;
+			return true;
 		}
 
 		return false;
@@ -277,5 +302,9 @@ public class ChampRunner {
 		}
 
 		return true;
+	}
+
+	private boolean DoINeedToReset() {
+		return ArrowExists() && System.currentTimeMillis() > longRunFarmTime;
 	}
 }
