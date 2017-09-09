@@ -7,7 +7,7 @@ import java.awt.Toolkit;
 import java.awt.event.InputEvent;
 
 public class ChampRunner {
-	private boolean longRun = true;
+	private boolean longRun = false;
 	private static final double cutOffDelay = 1000 * 60 * 60;
 	private static final double cutOffHour = 0.5;
 	private static final int longRunPressDelay = 1000 * 60 * 5;
@@ -117,7 +117,8 @@ public class ChampRunner {
 						robot.mouseRelease(InputEvent.BUTTON1_MASK);
 
 						if (DoINeedToReset()) {
-							// Farm for x seconds then check for arrow again if doing
+							// Farm for x seconds then check for arrow again if
+							// doing
 							// long run
 							if (longRun) {
 								// Turn on auto-progress
@@ -158,7 +159,8 @@ public class ChampRunner {
 						robot.mouseRelease(InputEvent.BUTTON1_MASK);
 
 						if (DoINeedToReset()) {
-							// Farm for x seconds then check for arrow again if doing
+							// Farm for x seconds then check for arrow again if
+							// doing
 							// long run
 							if (longRun) {
 								// Turn on auto-progress
@@ -208,12 +210,13 @@ public class ChampRunner {
 		buffStartingPoint = new Point(originPoint.x - (int) (0 * scale), originPoint.y + (int) (57 * scale));
 		perkStartingPoint = new Point(originPoint.x - (int) (756 * scale), originPoint.y - (int) (65 * scale));
 		goPoint = new Point(originPoint.x + (int) (40 * scale), originPoint.y - (int) (450 * scale));
-
 		completeAdventurePoint = new Point(originPoint.x - (int) (971 * scale), originPoint.y - (int) (556 * scale));
-		confirmCompletePoint = new Point(originPoint.x - (int) (616 * scale), originPoint.y - (int) (115 * scale));
+		confirmCompletePoint = new Point(originPoint.x - (int) (616 * scale), originPoint.y - (int) (145 * scale));
 		continuePoint = new Point(originPoint.x - (int) (532 * scale), originPoint.y - (int) (39 * scale));
-		chooseTownPoint = new Point(originPoint.x - (int) (536), originPoint.y - (int) (277 * scale));
-		chooseMissionPoint = new Point(originPoint.x - (int) (755 * scale), originPoint.y - (int) (505 * scale));
+		// chooseTownPoint = new Point(originPoint.x - (int) (536), originPoint.y - (int) (277 * scale)); // Original town 2
+		chooseTownPoint = new Point(originPoint.x - (int) (431 * scale), originPoint.y - (int) (248 * scale)); // Town 2
+		chooseMissionPoint = new Point(originPoint.x - (int) (755 * scale), originPoint.y - (int) (505 * scale)); // 1st mission
+		//chooseMissionPoint = new Point(originPoint.x - (int) (755 * scale), originPoint.y - (int) (275 * scale)); // 4th mission (freeplay)
 		confirmMissionPoint = new Point(originPoint.x - (int) (383 * scale), originPoint.y - (int) (104 * scale));
 		autoProgressPoint = new Point(originPoint.x - (int) (-64 * scale), originPoint.y - (int) (533 * scale));
 	}
@@ -237,9 +240,16 @@ public class ChampRunner {
 			Thread.sleep(50);
 			pressMouse(2000);
 
-			// Reset confirm
+			// Reset confirm (this can vary, so spam some points)
 			robot.mouseMove(confirmCompletePoint.x, confirmCompletePoint.y);
-			Thread.sleep(50);
+			pressMouse(50);
+			robot.mouseMove(confirmCompletePoint.x, confirmCompletePoint.y + 20);
+			pressMouse(50);
+			robot.mouseMove(confirmCompletePoint.x, confirmCompletePoint.y + 40);
+			pressMouse(50);
+			robot.mouseMove(confirmCompletePoint.x, confirmCompletePoint.y + 60);
+			pressMouse(50);
+			robot.mouseMove(confirmCompletePoint.x, confirmCompletePoint.y + 80);
 			pressMouse(12000);
 
 			// Continue button
@@ -247,9 +257,37 @@ public class ChampRunner {
 			Thread.sleep(50);
 			pressMouse(2000);
 
+			// Correct map position
+			robot.mouseWheel(-1);
+			Thread.sleep(50);
+			for (int i = 0; i < 10; i++) {
+				robot.mouseWheel(100);
+				Thread.sleep(50);
+			}
+			
+			// Drag map to bottom right
+			robot.mouseMove(originPoint.x - (int) (360 * scale), originPoint.y - (int) (200 * scale));
+			robot.mousePress(InputEvent.BUTTON1_MASK);
+			robot.mousePress(InputEvent.BUTTON1_MASK);
+			robot.mousePress(InputEvent.BUTTON1_MASK);
+			Thread.sleep(50);
+			robot.mouseMove(chooseMissionPoint.x - (int) (360 * scale), chooseMissionPoint.y);
+			Thread.sleep(50);
+			robot.mouseRelease(InputEvent.BUTTON1_MASK);
+			robot.mouseRelease(InputEvent.BUTTON1_MASK);
+			robot.mouseRelease(InputEvent.BUTTON1_MASK);
+			Thread.sleep(1000);
+
 			// Choose town
 			robot.mouseMove(chooseTownPoint.x, chooseTownPoint.y);
-			Thread.sleep(50);
+			pressMouse(50);
+			robot.mouseMove(chooseTownPoint.x+20, chooseTownPoint.y);
+			pressMouse(50);
+			robot.mouseMove(chooseTownPoint.x, chooseTownPoint.y+20);
+			pressMouse(50);
+			robot.mouseMove(chooseTownPoint.x-20, chooseTownPoint.y);
+			pressMouse(50);
+			robot.mouseMove(chooseTownPoint.x, chooseTownPoint.y-20);
 			pressMouse(1000);
 
 			// Choose mission
