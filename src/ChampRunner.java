@@ -98,6 +98,7 @@ public class ChampRunner {
 
 				if (Math.abs(lastPoint.x - currentPoint.x) > stopDistance
 						|| Math.abs(lastPoint.y - currentPoint.y) > stopDistance) {
+					System.out.println("Exit point 1");
 					break;
 				}
 
@@ -109,7 +110,7 @@ public class ChampRunner {
 					int currx = buffStartingPoint.x;
 					robot.mouseMove(currx, buffStartingPoint.y);
 					lastPoint = MouseInfo.getPointerInfo().getLocation();
-					for (int i = 0; i < 60; i++) {
+					for (int i = 0; i < 70; i++) {
 						currentPoint = MouseInfo.getPointerInfo().getLocation();
 						robot.mousePress(InputEvent.BUTTON1_MASK);
 						Thread.sleep(30);
@@ -135,6 +136,7 @@ public class ChampRunner {
 
 						if (Math.abs(lastPoint.x - currentPoint.x) > stopDistance
 								|| Math.abs(lastPoint.y - currentPoint.y) > stopDistance) {
+							System.out.println("Exit point 2");
 							break outerloop;
 						}
 
@@ -149,7 +151,7 @@ public class ChampRunner {
 					int currx2 = perkStartingPoint.x;
 					robot.mouseMove(currx2, perkStartingPoint.y);
 					lastPoint = MouseInfo.getPointerInfo().getLocation();
-					for (int i = 0; i < 32; i++) {
+					for (int i = 0; i < 31; i++) {
 						currentPoint = MouseInfo.getPointerInfo().getLocation();
 						robot.mousePress(InputEvent.BUTTON1_MASK);
 						Thread.sleep(30);
@@ -175,6 +177,8 @@ public class ChampRunner {
 
 						if (Math.abs(lastPoint.x - currentPoint.x) > stopDistance
 								|| Math.abs(lastPoint.y - currentPoint.y) > stopDistance) {
+
+							System.out.println("Exit point 3");
 							break outerloop;
 						}
 
