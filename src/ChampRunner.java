@@ -14,6 +14,7 @@ public class ChampRunner {
 	private boolean ARROW_COLOR_DEBUG = false;
 	private final int startDelay = 3000;
 	private final int clickDelay = 500;
+	private final int miniClickDelay = 250;
 	private final int stopDistance = 50;
 	private static Robot robot;
 	private Point originPoint;
@@ -98,7 +99,7 @@ public class ChampRunner {
 
 				if (Math.abs(lastPoint.x - currentPoint.x) > stopDistance
 						|| Math.abs(lastPoint.y - currentPoint.y) > stopDistance) {
-					System.out.println("Exit point 1");
+					System.out.println("Exit point 1 step="+step);
 					break;
 				}
 
@@ -137,7 +138,7 @@ public class ChampRunner {
 
 						if (Math.abs(lastPoint.x - currentPoint.x) > stopDistance
 								|| Math.abs(lastPoint.y - currentPoint.y) > stopDistance) {
-							System.out.println("Exit point 2");
+							System.out.println("Exit point 2 i="+i);
 							break outerloop;
 						}
 
@@ -145,7 +146,7 @@ public class ChampRunner {
 						robot.mouseMove(currx, buffStartingPoint.y);
 
 						lastPoint = MouseInfo.getPointerInfo().getLocation();
-						Thread.sleep(150);
+						Thread.sleep(miniClickDelay);
 					}
 					break;
 				case 2:
@@ -180,7 +181,7 @@ public class ChampRunner {
 						if (Math.abs(lastPoint.x - currentPoint.x) > stopDistance
 								|| Math.abs(lastPoint.y - currentPoint.y) > stopDistance) {
 
-							System.out.println("Exit point 3");
+							System.out.println("Exit point 3 i="+i);
 							break outerloop;
 						}
 
@@ -188,7 +189,7 @@ public class ChampRunner {
 						robot.mouseMove(currx2, perkStartingPoint.y);
 
 						lastPoint = MouseInfo.getPointerInfo().getLocation();
-						Thread.sleep(150);
+						Thread.sleep(miniClickDelay);
 					}
 					break;
 				}
@@ -215,8 +216,8 @@ public class ChampRunner {
 		continuePoint = new Point(originPoint.x - (int) (532 * scale), originPoint.y - (int) (39 * scale));
 		// chooseTownPoint = new Point(originPoint.x - (int) (536), originPoint.y - (int) (277 * scale)); // Original town 2
 		chooseTownPoint = new Point(originPoint.x - (int) (431 * scale), originPoint.y - (int) (248 * scale)); // Town 2
-		chooseMissionPoint = new Point(originPoint.x - (int) (755 * scale), originPoint.y - (int) (505 * scale)); // 1st mission
-		//chooseMissionPoint = new Point(originPoint.x - (int) (755 * scale), originPoint.y - (int) (275 * scale)); // 4th mission (freeplay)
+		//chooseMissionPoint = new Point(originPoint.x - (int) (755 * scale), originPoint.y - (int) (505 * scale)); // 1st mission
+		chooseMissionPoint = new Point(originPoint.x - (int) (755 * scale), originPoint.y - (int) (275 * scale)); // 4th mission (freeplay)
 		confirmMissionPoint = new Point(originPoint.x - (int) (383 * scale), originPoint.y - (int) (104 * scale));
 		autoProgressPoint = new Point(originPoint.x - (int) (-64 * scale), originPoint.y - (int) (533 * scale));
 	}
