@@ -110,6 +110,7 @@ public class ChampRunner {
 				case 1:
 					int currx = buffStartingPoint.x;
 					robot.mouseMove(currx, buffStartingPoint.y);
+					Thread.sleep(30);
 					lastPoint = MouseInfo.getPointerInfo().getLocation();
 					for (int i = 0; i < 70; i++) {
 						currentPoint = MouseInfo.getPointerInfo().getLocation();
@@ -144,7 +145,7 @@ public class ChampRunner {
 
 						currx -= skillXIncrement;
 						robot.mouseMove(currx, buffStartingPoint.y);
-
+						Thread.sleep(20);
 						lastPoint = MouseInfo.getPointerInfo().getLocation();
 						Thread.sleep(miniClickDelay);
 					}
@@ -152,6 +153,7 @@ public class ChampRunner {
 				case 2:
 					int currx2 = perkStartingPoint.x;
 					robot.mouseMove(currx2, perkStartingPoint.y);
+					Thread.sleep(30);
 					lastPoint = MouseInfo.getPointerInfo().getLocation();
 					for (int i = 0; i < 31; i++) {
 						currentPoint = MouseInfo.getPointerInfo().getLocation();
@@ -187,7 +189,7 @@ public class ChampRunner {
 
 						currx2 += perkXIncrement;
 						robot.mouseMove(currx2, perkStartingPoint.y);
-
+						Thread.sleep(20);
 						lastPoint = MouseInfo.getPointerInfo().getLocation();
 						Thread.sleep(miniClickDelay);
 					}
@@ -197,6 +199,7 @@ public class ChampRunner {
 				step++;
 				if (step == 3)
 					step = 0;
+				Thread.sleep(20);
 				lastPoint = MouseInfo.getPointerInfo().getLocation();
 				Thread.sleep(clickDelay);
 			}
@@ -217,7 +220,7 @@ public class ChampRunner {
 		// chooseTownPoint = new Point(originPoint.x - (int) (536), originPoint.y - (int) (277 * scale)); // Original town 2
 		chooseTownPoint = new Point(originPoint.x - (int) (431 * scale), originPoint.y - (int) (248 * scale)); // Town 2
 		//chooseMissionPoint = new Point(originPoint.x - (int) (755 * scale), originPoint.y - (int) (505 * scale)); // 1st mission
-		chooseMissionPoint = new Point(originPoint.x - (int) (755 * scale), originPoint.y - (int) (275 * scale)); // 4th mission (freeplay)
+		chooseMissionPoint = new Point(originPoint.x - (int) (755 * scale), originPoint.y - (int) (305 * scale)); // 4th mission (freeplay)
 		confirmMissionPoint = new Point(originPoint.x - (int) (383 * scale), originPoint.y - (int) (104 * scale));
 		autoProgressPoint = new Point(originPoint.x - (int) (-64 * scale), originPoint.y - (int) (533 * scale));
 	}
@@ -251,7 +254,7 @@ public class ChampRunner {
 			robot.mouseMove(confirmCompletePoint.x, confirmCompletePoint.y + 60);
 			pressMouse(50);
 			robot.mouseMove(confirmCompletePoint.x, confirmCompletePoint.y + 80);
-			pressMouse(12000);
+			pressMouse(14000);
 
 			// Continue button
 			robot.mouseMove(continuePoint.x, continuePoint.y);
