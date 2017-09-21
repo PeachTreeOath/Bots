@@ -8,6 +8,7 @@ import java.awt.event.InputEvent;
 
 public class ChampRunner {
 	private boolean longRun = false;
+	private boolean microMode = false;
 	private static final double cutOffDelay = 1000 * 60 * 60;
 	private static final double cutOffHour = 0.5;
 	private static final int longRunPressDelay = 1000 * 60 * 5;
@@ -105,7 +106,8 @@ public class ChampRunner {
 
 				switch (step) {
 				case 0:
-					robot.mouseMove(formationPoint.x, formationPoint.y);
+					if(!microMode)
+						robot.mouseMove(formationPoint.x, formationPoint.y);
 					break;
 				case 1:
 					int currx = buffStartingPoint.x;
@@ -151,47 +153,50 @@ public class ChampRunner {
 					}
 					break;
 				case 2:
-					int currx2 = perkStartingPoint.x;
-					robot.mouseMove(currx2, perkStartingPoint.y);
-					Thread.sleep(30);
-					lastPoint = MouseInfo.getPointerInfo().getLocation();
-					for (int i = 0; i < 31; i++) {
-						currentPoint = MouseInfo.getPointerInfo().getLocation();
-						robot.mousePress(InputEvent.BUTTON1_MASK);
+					if(!microMode)
+					{
+						int currx2 = perkStartingPoint.x;
+						robot.mouseMove(currx2, perkStartingPoint.y);
 						Thread.sleep(30);
-						robot.mouseRelease(InputEvent.BUTTON1_MASK);
-
-						if (DoINeedToReset()) {
-							// Farm for x seconds then check for arrow again if
-							// doing
-							// long run
-							if (longRun) {
-								// Turn on auto-progress
-								robot.mouseMove(autoProgressPoint.x, autoProgressPoint.y);
-								Thread.sleep(50);
-								pressMouse(1000);
-
-								longRunFarmTime = System.currentTimeMillis() + longRunPressDelay;
-							} else {
-								resetGame = true;
-								resetNum++;
-								resetGame();
+						lastPoint = MouseInfo.getPointerInfo().getLocation();
+						for (int i = 0; i < 31; i++) {
+							currentPoint = MouseInfo.getPointerInfo().getLocation();
+							robot.mousePress(InputEvent.BUTTON1_MASK);
+							Thread.sleep(30);
+							robot.mouseRelease(InputEvent.BUTTON1_MASK);
+	
+							if (DoINeedToReset()) {
+								// Farm for x seconds then check for arrow again if
+								// doing
+								// long run
+								if (longRun) {
+									// Turn on auto-progress
+									robot.mouseMove(autoProgressPoint.x, autoProgressPoint.y);
+									Thread.sleep(50);
+									pressMouse(1000);
+	
+									longRunFarmTime = System.currentTimeMillis() + longRunPressDelay;
+								} else {
+									resetGame = true;
+									resetNum++;
+									resetGame();
+									break outerloop;
+								}
+							}
+	
+							if (Math.abs(lastPoint.x - currentPoint.x) > stopDistance
+									|| Math.abs(lastPoint.y - currentPoint.y) > stopDistance) {
+	
+								System.out.println("Exit point 3 i="+i);
 								break outerloop;
 							}
+	
+							currx2 += perkXIncrement;
+							robot.mouseMove(currx2, perkStartingPoint.y);
+							Thread.sleep(20);
+							lastPoint = MouseInfo.getPointerInfo().getLocation();
+							Thread.sleep(miniClickDelay);
 						}
-
-						if (Math.abs(lastPoint.x - currentPoint.x) > stopDistance
-								|| Math.abs(lastPoint.y - currentPoint.y) > stopDistance) {
-
-							System.out.println("Exit point 3 i="+i);
-							break outerloop;
-						}
-
-						currx2 += perkXIncrement;
-						robot.mouseMove(currx2, perkStartingPoint.y);
-						Thread.sleep(20);
-						lastPoint = MouseInfo.getPointerInfo().getLocation();
-						Thread.sleep(miniClickDelay);
 					}
 					break;
 				}
@@ -214,13 +219,13 @@ public class ChampRunner {
 		buffStartingPoint = new Point(originPoint.x - (int) (0 * scale), originPoint.y + (int) (57 * scale));
 		perkStartingPoint = new Point(originPoint.x - (int) (756 * scale), originPoint.y - (int) (65 * scale));
 		goPoint = new Point(originPoint.x + (int) (40 * scale), originPoint.y - (int) (450 * scale));
-		completeAdventurePoint = new Point(originPoint.x - (int) (971 * scale), originPoint.y - (int) (556 * scale));
+		completeAdventurePoint = new Point(originPoint.x - (int) (941 * scale), originPoint.y - (int) (556 * scale));
 		confirmCompletePoint = new Point(originPoint.x - (int) (616 * scale), originPoint.y - (int) (145 * scale));
 		continuePoint = new Point(originPoint.x - (int) (532 * scale), originPoint.y - (int) (39 * scale));
 		// chooseTownPoint = new Point(originPoint.x - (int) (536), originPoint.y - (int) (277 * scale)); // Original town 2
 		chooseTownPoint = new Point(originPoint.x - (int) (431 * scale), originPoint.y - (int) (248 * scale)); // Town 2
 		//chooseMissionPoint = new Point(originPoint.x - (int) (755 * scale), originPoint.y - (int) (505 * scale)); // 1st mission
-		chooseMissionPoint = new Point(originPoint.x - (int) (755 * scale), originPoint.y - (int) (305 * scale)); // 4th mission (freeplay)
+		chooseMissionPoint = new Point(originPoint.x - (int) (755 * scale), originPoint.y - (int) (250 * scale)); // 5th mission (freeplay)
 		confirmMissionPoint = new Point(originPoint.x - (int) (383 * scale), originPoint.y - (int) (104 * scale));
 		autoProgressPoint = new Point(originPoint.x - (int) (-64 * scale), originPoint.y - (int) (533 * scale));
 	}
