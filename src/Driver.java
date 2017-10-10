@@ -17,14 +17,14 @@ public class Driver {
 	private final int startDelay = 3000;
 	private static int clickDelay;
 	private static final int idle_CH_clickDelay = 10000;
-	private static final int active_clickDelay = 40;
+	private static final int active_clickDelay = 25;
 	private static final int stormRiderPressDelay = 1000 * 60 * 10;
+	private boolean castStormRider = false;
 	private static long nextStormRiderTime = 0;
 	private int stopDistance = 50;
 	private final boolean delayNeeded = true;
 	private final boolean rangeFind = false;
 	private Robot robot;
-
 	public static void main(String[] args) {
 		switch (gameType) {
 		case ACTIVE:
@@ -60,12 +60,11 @@ public class Driver {
 				
 				if(!rangeFind)
 				{
+					robot.mousePress(InputEvent.BUTTON1_MASK);						
 					
-				robot.mousePress(InputEvent.BUTTON1_MASK);						
-				
-				if (delayNeeded)
-					Thread.sleep(10);
-				robot.mouseRelease(InputEvent.BUTTON1_MASK);
+					if (delayNeeded)
+						Thread.sleep(10);
+					robot.mouseRelease(InputEvent.BUTTON1_MASK);
 				}
 
 				// if (gameType == GameType.IDLE_CH)
@@ -76,15 +75,13 @@ public class Driver {
 				}
 
 				if (!rangeFind) {
-
-					if (System.currentTimeMillis() > nextStormRiderTime) {
+					if (castStormRider && System.currentTimeMillis() > nextStormRiderTime) {
 						castStormRider();
 						nextStormRiderTime = System.currentTimeMillis() + stormRiderPressDelay;
 					}
 				}
 
 				if (rangeFind) {
-
 					System.out.println(Math.abs(currentPoint.x - originPoint.x) + " : "
 							+ Math.abs(currentPoint.y - originPoint.y));
 				}
