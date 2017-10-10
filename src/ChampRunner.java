@@ -8,10 +8,11 @@ import java.awt.event.InputEvent;
 
 public class ChampRunner {
 	private boolean longRun = false;
+	private boolean farmMode = false;
 	private boolean microMode = false;
 	private static final double cutOffDelay = 1000 * 60 * 60;
 	private static final double cutOffHour = 0.5;
-	private static final int longRunPressDelay = 1000 * 60 * 5;
+	private static final int longRunPressDelay = 1000 * 60 * 15;
 	private boolean ARROW_COLOR_DEBUG = false;
 	private final int startDelay = 3000;
 	private final int clickDelay = 500;
@@ -223,7 +224,8 @@ public class ChampRunner {
 		confirmCompletePoint = new Point(originPoint.x - (int) (616 * scale), originPoint.y - (int) (145 * scale));
 		continuePoint = new Point(originPoint.x - (int) (532 * scale), originPoint.y - (int) (39 * scale));
 		// chooseTownPoint = new Point(originPoint.x - (int) (536), originPoint.y - (int) (277 * scale)); // Original town 2
-		chooseTownPoint = new Point(originPoint.x - (int) (431 * scale), originPoint.y - (int) (248 * scale)); // Town 2
+		//chooseTownPoint = new Point(originPoint.x - (int) (431 * scale), originPoint.y - (int) (248 * scale)); // Town 2
+		chooseTownPoint = new Point(originPoint.x - (int) (737 * scale), originPoint.y - (int) (46 * scale)); // Town
 		//chooseMissionPoint = new Point(originPoint.x - (int) (755 * scale), originPoint.y - (int) (505 * scale)); // 1st mission
 		chooseMissionPoint = new Point(originPoint.x - (int) (755 * scale), originPoint.y - (int) (250 * scale)); // 5th mission (freeplay)
 		confirmMissionPoint = new Point(originPoint.x - (int) (383 * scale), originPoint.y - (int) (104 * scale));
@@ -269,8 +271,8 @@ public class ChampRunner {
 			// Correct map position
 			robot.mouseWheel(-1);
 			Thread.sleep(50);
-			for (int i = 0; i < 10; i++) {
-				robot.mouseWheel(100);
+			for (int i = 0; i < 20; i++) {
+				robot.mouseWheel(50);
 				Thread.sleep(50);
 			}
 			
@@ -356,6 +358,6 @@ public class ChampRunner {
 	}
 
 	private boolean DoINeedToReset() {
-		return ArrowExists() && System.currentTimeMillis() > longRunFarmTime;
+		return !farmMode && ArrowExists() && System.currentTimeMillis() > longRunFarmTime;
 	}
 }
